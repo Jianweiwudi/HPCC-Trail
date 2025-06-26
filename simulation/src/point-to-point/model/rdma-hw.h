@@ -125,8 +125,23 @@ public:
 	bool m_sampleFeedback; // only react to feedback every RTT, or qlen > 0
 	void HandleAckHp(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch);
 	void UpdateRateHp(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch, bool fast_react);
-	void UpdateRateHpTest(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch, bool fast_react);
 	void FastReactHp(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch);
+
+	/**********************
+	 * DCI-RDMA
+	 *********************/
+	uint8_t ack_cnt; // slowstart ack count
+	uint64_t gap;
+	uint64_t last_ts;
+	void HandleAckDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch);
+	void UpdateRateDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch, bool us);
+	void FastReactDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch);
+
+
+
+
+
+
 
 	/**********************
 	 * TIMELY
@@ -157,6 +172,8 @@ public:
 	void SetPintSmplThresh(double p);
 	void HandleAckHpPint(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch);
 	void UpdateRateHpPint(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch, bool fast_react);
+
+
 };
 
 } /* namespace ns3 */
