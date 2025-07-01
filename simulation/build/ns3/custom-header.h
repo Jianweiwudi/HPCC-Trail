@@ -123,6 +123,7 @@ public:
 		  uint16_t flags;
 		  uint16_t pg;
 		  uint32_t seq; // the qbb sequence number.
+      uint64_t timestamp; // ack generation time.
 		  IntHeader ih;
 	  } ack;
 	  // PauseHeader

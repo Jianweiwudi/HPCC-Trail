@@ -1,4 +1,4 @@
-# project ns (3.18) configured on Thu Jun 26 16:54:16 2025 by
+# project ns (3.18) configured on Tue Jul  1 10:18:50 2025 by
 # waf 1.7.11 (abi 98, python 20712f0 on linux2)
 # using ./waf configure
 #
@@ -99,7 +99,11 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_3b2479b91ea1f8aedc2bbc867fa4858e/test.cpp -> build/.conf_check_3b2479b91ea1f8aedc2bbc867fa4858e/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: g++: error: unrecognized command line option ‘-fstack-protector-strong’
+[2/2] [33mcxxprogram: build/.conf_check_3b2479b91ea1f8aedc2bbc867fa4858e/testbuild/test.cpp.1.o -> build/.conf_check_3b2479b91ea1f8aedc2bbc867fa4858e/testbuild/testprog
+[0m
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_3b2479b91ea1f8aedc2bbc867fa4858e/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib', '-lpython2.7']
+err: /usr/bin/ld: cannot find -lpython2.7
+collect2: error: ld returned 1 exit status
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -108,8 +112,8 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745713841296: cxx test.cpp -> test.cpp.1.o}
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
+	{task 140328777090320: cxxprogram test.cpp.1.o -> testprog}
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_3b2479b91ea1f8aedc2bbc867fa4858e/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib', '-lpython2.7']
 
 not found
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: The configuration failed
@@ -130,7 +134,11 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_d17a70babee59afe3e1c1c75ef40e077/test.cpp -> build/.conf_check_d17a70babee59afe3e1c1c75ef40e077/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: g++: error: unrecognized command line option ‘-fstack-protector-strong’
+[2/2] [33mcxxprogram: build/.conf_check_d17a70babee59afe3e1c1c75ef40e077/testbuild/test.cpp.1.o -> build/.conf_check_d17a70babee59afe3e1c1c75ef40e077/testbuild/testprog
+[0m
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_d17a70babee59afe3e1c1c75ef40e077/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python2.7/config-x86_64-linux-gnu', '-lpython2.7']
+err: /usr/bin/ld: cannot find -lpython2.7
+collect2: error: ld returned 1 exit status
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -139,8 +147,8 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745713962576: cxx test.cpp -> test.cpp.1.o}
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
+	{task 140328777211344: cxxprogram test.cpp.1.o -> testprog}
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_d17a70babee59afe3e1c1c75ef40e077/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python2.7/config-x86_64-linux-gnu', '-lpython2.7']
 
 not found
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: The configuration failed
@@ -161,7 +169,11 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_de4494721897d66ec0b1f0c4e9216223/test.cpp -> build/.conf_check_de4494721897d66ec0b1f0c4e9216223/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: g++: error: unrecognized command line option ‘-fstack-protector-strong’
+[2/2] [33mcxxprogram: build/.conf_check_de4494721897d66ec0b1f0c4e9216223/testbuild/test.cpp.1.o -> build/.conf_check_de4494721897d66ec0b1f0c4e9216223/testbuild/testprog
+[0m
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_de4494721897d66ec0b1f0c4e9216223/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/libs', '-lpython2.7']
+err: /usr/bin/ld: cannot find -lpython2.7
+collect2: error: ld returned 1 exit status
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -170,8 +182,8 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714004944: cxx test.cpp -> test.cpp.1.o}
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
+	{task 140328777250000: cxxprogram test.cpp.1.o -> testprog}
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_de4494721897d66ec0b1f0c4e9216223/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/libs', '-lpython2.7']
 
 not found
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: The configuration failed
@@ -192,7 +204,11 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_485297a0f5930f4f3dbf85136ce5b31d/test.cpp -> build/.conf_check_485297a0f5930f4f3dbf85136ce5b31d/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: g++: error: unrecognized command line option ‘-fstack-protector-strong’
+[2/2] [33mcxxprogram: build/.conf_check_485297a0f5930f4f3dbf85136ce5b31d/testbuild/test.cpp.1.o -> build/.conf_check_485297a0f5930f4f3dbf85136ce5b31d/testbuild/testprog
+[0m
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_485297a0f5930f4f3dbf85136ce5b31d/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib', '-lpython2.7m']
+err: /usr/bin/ld: cannot find -lpython2.7m
+collect2: error: ld returned 1 exit status
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -201,8 +217,8 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714006736: cxx test.cpp -> test.cpp.1.o}
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
+	{task 140328777251984: cxxprogram test.cpp.1.o -> testprog}
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_485297a0f5930f4f3dbf85136ce5b31d/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib', '-lpython2.7m']
 
 not found
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: The configuration failed
@@ -223,7 +239,11 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_47edc30cf74b5b20788533ecb328dd94/test.cpp -> build/.conf_check_47edc30cf74b5b20788533ecb328dd94/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: g++: error: unrecognized command line option ‘-fstack-protector-strong’
+[2/2] [33mcxxprogram: build/.conf_check_47edc30cf74b5b20788533ecb328dd94/testbuild/test.cpp.1.o -> build/.conf_check_47edc30cf74b5b20788533ecb328dd94/testbuild/testprog
+[0m
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_47edc30cf74b5b20788533ecb328dd94/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python2.7/config-x86_64-linux-gnu', '-lpython2.7m']
+err: /usr/bin/ld: cannot find -lpython2.7m
+collect2: error: ld returned 1 exit status
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -232,8 +252,8 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714057552: cxx test.cpp -> test.cpp.1.o}
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
+	{task 140328777307280: cxxprogram test.cpp.1.o -> testprog}
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_47edc30cf74b5b20788533ecb328dd94/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python2.7/config-x86_64-linux-gnu', '-lpython2.7m']
 
 not found
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: The configuration failed
@@ -254,7 +274,11 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_bb4ab0a2da6fec0567ee396296163b23/test.cpp -> build/.conf_check_bb4ab0a2da6fec0567ee396296163b23/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: g++: error: unrecognized command line option ‘-fstack-protector-strong’
+[2/2] [33mcxxprogram: build/.conf_check_bb4ab0a2da6fec0567ee396296163b23/testbuild/test.cpp.1.o -> build/.conf_check_bb4ab0a2da6fec0567ee396296163b23/testbuild/testprog
+[0m
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_bb4ab0a2da6fec0567ee396296163b23/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/libs', '-lpython2.7m']
+err: /usr/bin/ld: cannot find -lpython2.7m
+collect2: error: ld returned 1 exit status
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -263,8 +287,8 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714059152: cxx test.cpp -> test.cpp.1.o}
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
+	{task 140328777309008: cxxprogram test.cpp.1.o -> testprog}
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_bb4ab0a2da6fec0567ee396296163b23/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/libs', '-lpython2.7m']
 
 not found
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: The configuration failed
@@ -285,7 +309,11 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_8d4c00df8e5bde69c9f1f5580d7cb80e/test.cpp -> build/.conf_check_8d4c00df8e5bde69c9f1f5580d7cb80e/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: g++: error: unrecognized command line option ‘-fstack-protector-strong’
+[2/2] [33mcxxprogram: build/.conf_check_8d4c00df8e5bde69c9f1f5580d7cb80e/testbuild/test.cpp.1.o -> build/.conf_check_8d4c00df8e5bde69c9f1f5580d7cb80e/testbuild/testprog
+[0m
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_8d4c00df8e5bde69c9f1f5580d7cb80e/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib', '-lpython27']
+err: /usr/bin/ld: cannot find -lpython27
+collect2: error: ld returned 1 exit status
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -294,8 +322,8 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714007760: cxx test.cpp -> test.cpp.1.o}
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
+	{task 140328777307536: cxxprogram test.cpp.1.o -> testprog}
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_8d4c00df8e5bde69c9f1f5580d7cb80e/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib', '-lpython27']
 
 not found
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: The configuration failed
@@ -316,7 +344,11 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_9019fe94d6dd549565dfd45921342541/test.cpp -> build/.conf_check_9019fe94d6dd549565dfd45921342541/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: g++: error: unrecognized command line option ‘-fstack-protector-strong’
+[2/2] [33mcxxprogram: build/.conf_check_9019fe94d6dd549565dfd45921342541/testbuild/test.cpp.1.o -> build/.conf_check_9019fe94d6dd549565dfd45921342541/testbuild/testprog
+[0m
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_9019fe94d6dd549565dfd45921342541/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python2.7/config-x86_64-linux-gnu', '-lpython27']
+err: /usr/bin/ld: cannot find -lpython27
+collect2: error: ld returned 1 exit status
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -325,8 +357,8 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714005008: cxx test.cpp -> test.cpp.1.o}
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
+	{task 140328777249168: cxxprogram test.cpp.1.o -> testprog}
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_9019fe94d6dd549565dfd45921342541/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python2.7/config-x86_64-linux-gnu', '-lpython27']
 
 not found
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: The configuration failed
@@ -347,7 +379,11 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_d0a3a3e87346a24a0cb64337d5363d6d/test.cpp -> build/.conf_check_d0a3a3e87346a24a0cb64337d5363d6d/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: g++: error: unrecognized command line option ‘-fstack-protector-strong’
+[2/2] [33mcxxprogram: build/.conf_check_d0a3a3e87346a24a0cb64337d5363d6d/testbuild/test.cpp.1.o -> build/.conf_check_d0a3a3e87346a24a0cb64337d5363d6d/testbuild/testprog
+[0m
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_d0a3a3e87346a24a0cb64337d5363d6d/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/libs', '-lpython27']
+err: /usr/bin/ld: cannot find -lpython27
+collect2: error: ld returned 1 exit status
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -356,8 +392,8 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714058448: cxx test.cpp -> test.cpp.1.o}
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
+	{task 140328777249872: cxxprogram test.cpp.1.o -> testprog}
+['/usr/bin/g++', '-Wl,-Bsymbolic-functions', '-Wl,-z,relro', 'test.cpp.1.o', '-o', '/mnt/e/Workshop/lab/HPCC-Trail/simulation/build/.conf_check_d0a3a3e87346a24a0cb64337d5363d6d/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/libs', '-lpython27']
 
 not found
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: The configuration failed
@@ -397,7 +433,10 @@ int main(int argc, char **argv)
 [1/2] [32mcxx: build/.conf_check_1f933b02106127ce3a9f4633a0e368e7/test.cpp -> build/.conf_check_1f933b02106127ce3a9f4633a0e368e7/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-fno-strict-aliasing', '-I/usr/include/python2.7', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: g++: error: unrecognized command line option ‘-fstack-protector-strong’
+err: ../test.cpp:2:10: fatal error: Python.h: No such file or directory
+    2 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -406,7 +445,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714060816: cxx test.cpp -> test.cpp.1.o}
+	{task 140328777360400: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-fno-strict-aliasing', '-I/usr/include/python2.7', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 :-(
@@ -454,18 +493,21 @@ int main(int argc, char **argv) {
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 err: ../test.cpp: In function ‘int main(int, char**)’:
-../test.cpp:5:7: error: ‘uint128_t’ was not declared in this scope
-  if ((uint128_t *) 0) return 0;
-       ^
+../test.cpp:5:7: error: ‘uint128_t’ was not declared in this scope; did you mean ‘uint32_t’?
+    5 |  if ((uint128_t *) 0) return 0;
+      |       ^~~~~~~~~
+      |       uint32_t
 ../test.cpp:5:18: error: expected primary-expression before ‘)’ token
-  if ((uint128_t *) 0) return 0;
-                  ^
-../test.cpp:5:20: error: expected ‘)’ before numeric constant
-  if ((uint128_t *) 0) return 0;
-                    ^
-../test.cpp:6:14: error: ‘uint128_t’ was not declared in this scope
-  if (sizeof (uint128_t)) return 0;
-              ^
+    5 |  if ((uint128_t *) 0) return 0;
+      |                  ^
+../test.cpp:5:19: error: expected ‘)’ before numeric constant
+    5 |  if ((uint128_t *) 0) return 0;
+      |     ~             ^~
+      |                   )
+../test.cpp:6:14: error: ‘uint128_t’ was not declared in this scope; did you mean ‘uint32_t’?
+    6 |  if (sizeof (uint128_t)) return 0;
+      |              ^~~~~~~~~
+      |              uint32_t
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/src/core: Test does not build: Traceback (most recent call last):
   File "/mnt/e/Workshop/lab/HPCC-Trail/simulation/.waf-1.7.11-edc6ccb516c5e3f9b892efc9f53a610f/waflib/Tools/c_config.py", line 459, in run_c_code
@@ -474,7 +516,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/src/core: Test does not build: Tr
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714004176: cxx test.cpp -> test.cpp.1.o}
+	{task 140328777252112: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -552,9 +594,9 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_61ecbfef21667d45a28decabe37fdf64/test.cpp -> build/.conf_check_61ecbfef21667d45a28decabe37fdf64/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: ../test.cpp:1:26: fatal error: sys/inttypes.h: No such file or directory
- #include <sys/inttypes.h>
-                          ^
+err: ../test.cpp:1:10: fatal error: sys/inttypes.h: No such file or directory
+    1 | #include <sys/inttypes.h>
+      |          ^~~~~~~~~~~~~~~~
 compilation terminated.
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/src/core: Test does not build: Traceback (most recent call last):
@@ -564,7 +606,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/src/core: Test does not build: Tr
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714916368: cxx test.cpp -> test.cpp.1.o}
+	{task 140328777093264: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -729,9 +771,9 @@ int main(int argc, char **argv) {
 [1/2] [32mcxx: build/.conf_check_61ecbfef21667d45a28decabe37fdf64/test.cpp -> build/.conf_check_61ecbfef21667d45a28decabe37fdf64/testbuild/test.cpp.1.o
 [0m
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
-err: ../test.cpp:1:26: fatal error: sys/inttypes.h: No such file or directory
- #include <sys/inttypes.h>
-                          ^
+err: ../test.cpp:1:10: fatal error: sys/inttypes.h: No such file or directory
+    1 | #include <sys/inttypes.h>
+      |          ^~~~~~~~~~~~~~~~
 compilation terminated.
 
 from /mnt/e/Workshop/lab/HPCC-Trail/simulation/src/core: Test does not build: Traceback (most recent call last):
@@ -741,7 +783,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/src/core: Test does not build: Tr
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139745714049168: cxx test.cpp -> test.cpp.1.o}
+	{task 140328777277584: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found

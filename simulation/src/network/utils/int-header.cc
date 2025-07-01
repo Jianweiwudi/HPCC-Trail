@@ -35,6 +35,7 @@ void IntHeader::PushHop(uint64_t time, uint64_t bytes, uint32_t qlen, uint64_t r
 }
 
 void IntHeader::Serialize (Buffer::Iterator start) const{
+	// printf("ts: %lu\n", ts);
 	Buffer::Iterator i = start;
 	if (mode == NORMAL){
 		for (uint32_t j = 0; j < maxHop; j++){

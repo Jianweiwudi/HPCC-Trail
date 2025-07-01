@@ -12,12 +12,12 @@ namespace ns3 {
 	NS_OBJECT_ENSURE_REGISTERED(qbbHeader);
 
 	qbbHeader::qbbHeader(uint16_t pg)
-		: m_pg(pg), sport(0), dport(0), flags(0), m_seq(0)
+		: m_pg(pg), sport(0), dport(0), flags(0), m_seq(0), timeStamp(0)
 	{
 	}
 
 	qbbHeader::qbbHeader()
-		: m_pg(0), sport(0), dport(0), flags(0), m_seq(0)
+		: m_pg(0), sport(0), dport(0), flags(0), m_seq(0), timeStamp(0)
 	{}
 
 	qbbHeader::~qbbHeader()
@@ -44,6 +44,11 @@ namespace ns3 {
 		NS_ASSERT_MSG(IntHeader::mode == 1, "qbbHeader cannot SetTs when IntHeader::mode != 1");
 		ih.ts = ts;
 	}
+
+	void qbbHeader::SetTimeStamp(uint64_t _timeStamp){
+		timeStamp = _timeStamp;
+	}
+
 	void qbbHeader::SetCnp(){
 		flags |= 1 << FLAG_CNP;
 	}
@@ -72,6 +77,11 @@ namespace ns3 {
 		NS_ASSERT_MSG(IntHeader::mode == 1, "qbbHeader cannot GetTs when IntHeader::mode != 1");
 		return ih.ts;
 	}
+
+	uint64_t qbbHeader::GetTimeStamp() const{
+		return timeStamp;
+	}
+
 	uint8_t qbbHeader::GetCnp() const{
 		return (flags >> FLAG_CNP) & 1;
 	}
@@ -100,7 +110,7 @@ namespace ns3 {
 	}
 	uint32_t qbbHeader::GetBaseSize() {
 		qbbHeader tmp;
-		return sizeof(tmp.sport) + sizeof(tmp.dport) + sizeof(tmp.flags) + sizeof(tmp.m_pg) + sizeof(tmp.m_seq);
+		return sizeof(tmp.sport) + sizeof(tmp.dport) + sizeof(tmp.flags) + sizeof(tmp.m_pg) + sizeof(tmp.m_seq) + sizeof(tmp.timeStamp);
 	}
 	void qbbHeader::Serialize(Buffer::Iterator start)  const
 	{
@@ -110,6 +120,7 @@ namespace ns3 {
 		i.WriteU16(flags);
 		i.WriteU16(m_pg);
 		i.WriteU32(m_seq);
+		i.WriteU64(timeStamp);
 
 		// write IntHeader
 		ih.Serialize(i);
@@ -123,6 +134,7 @@ namespace ns3 {
 		flags = i.ReadU16();
 		m_pg = i.ReadU16();
 		m_seq = i.ReadU32();
+		timeStamp = i.ReadU64();
 
 		// read IntHeader
 		ih.Deserialize(i);

@@ -101,7 +101,7 @@ TypeId RdmaHw::GetTypeId (void)
 				MakeDataRateChecker())
 		.AddAttribute("VarWin",
 				"Use variable window size or not",
-				BooleanValue(false),
+				BooleanValue(true),
 				MakeBooleanAccessor(&RdmaHw::m_var_win),
 				MakeBooleanChecker())
 		.AddAttribute("FastReact",
@@ -184,21 +184,6 @@ TypeId RdmaHw::GetTypeId (void)
 				UintegerValue(65536),
 				MakeUintegerAccessor(&RdmaHw::pint_smpl_thresh),
 				MakeUintegerChecker<uint32_t>())
-		.AddAttribute("ack count",
-				"slow start ack count",
-				UintegerValue(0),
-				MakeUintegerAccessor(&RdmaHw::ack_cnt),
-				MakeUintegerChecker<uint8_t>())
-		.AddAttribute("gap",
-				"gap calculated by EWMA",
-				UintegerValue(0),
-				MakeUintegerAccessor(&RdmaHw::gap),
-				MakeUintegerChecker<uint64_t>())
-		.AddAttribute("last_ts",
-			"last ack timestamp",
-			UintegerValue(0),
-			MakeUintegerAccessor(&RdmaHw::last_ts),
-			MakeUintegerChecker<uint64_t>())
 	;
 	return tid;
 }
@@ -274,6 +259,7 @@ void RdmaHw::AddQueuePair(uint64_t size, uint16_t pg, Ipv4Address sip, Ipv4Addre
 		}
 	}else if (m_cc_mode == 7){
 		qp->tmly.m_curRate = m_bps;
+		qp->DCI.m_curRate = m_bps;
 	}else if (m_cc_mode == 10){
 		qp->hpccPint.m_curRate = m_bps;
 	}
@@ -342,7 +328,7 @@ int RdmaHw::ReceiveUdp(Ptr<Packet> p, CustomHeader &ch){
 		seqh.SetPG(ch.udp.pg);
 		seqh.SetSport(ch.udp.dport);
 		seqh.SetDport(ch.udp.sport);
-		ch.udp.ih.ts = Simulator::Now().GetTimeStep();
+		seqh.SetTimeStamp(Simulator::Now().GetTimeStep());
 		// printf("ts at generation: %lu ", ch.udp.ih.ts);
 		seqh.SetIntHeader(ch.udp.ih);
 		if (ecnbits)
@@ -455,6 +441,7 @@ int RdmaHw::ReceiveAck(Ptr<Packet> p, CustomHeader &ch){
 		HandleAckDCI(qp, p, ch);
 	}else if (m_cc_mode == 7){
 		HandleAckTimely(qp, p, ch);
+		// HandleAckDCI(qp, p, ch);
 	}else if (m_cc_mode == 8){
 		HandleAckDctcp(qp, p, ch);
 	}else if (m_cc_mode == 10){
@@ -622,6 +609,8 @@ void RdmaHw::UpdateNextAvail(Ptr<RdmaQueuePair> qp, Time interframeGap, uint32_t
 		sendingTime = interframeGap + Seconds(qp->m_rate.CalculateTxTime(pkt_size));
 	else
 		sendingTime = interframeGap + Seconds(qp->m_max_rate.CalculateTxTime(pkt_size));
+	// printf("sendingTime: %lu\n",sendingTime);
+	// std::cout << "sending Time" << sendingTime << "\n";
 	qp->m_nextAvail = Simulator::Now() + sendingTime;
 }
 
@@ -788,6 +777,7 @@ void RdmaHw::UpdateRateHp(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch
 		qp->hp.m_lastUpdateSeq = next_seq;
 		// store INT
 		IntHeader &ih = ch.ack.ih;
+		printf("%d",IntHeader::mode);
 		NS_ASSERT(ih.nhop <= IntHeader::maxHop);
 		for (uint32_t i = 0; i < ih.nhop; i++)
 			qp->hp.hop[i] = ih.hop[i];
@@ -951,45 +941,85 @@ void RdmaHw::FastReactHp(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch)
  * DCI-RDMA
  ***********************/
 void RdmaHw::HandleAckDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch){
+	// printf("pkt size = %u\n ", p->GetSize());
 	uint32_t ack_seq = ch.ack.seq;
 	// update rate
 	if (ack_seq > qp->hp.m_lastUpdateSeq){ // if full RTT feedback is ready, do full update
 		UpdateRateDCI(qp, p, ch, false);
 	}else{ // do fast react
-		FastReactTimely(qp, p, ch);
+		FastReactDCI(qp, p, ch);
 	}
 }
 
 void RdmaHw::UpdateRateDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch, bool fast_react){
 	uint32_t next_seq = qp->snd_nxt;
 	uint64_t rtt = Simulator::Now().GetTimeStep() - ch.ack.ih.ts;
-	printf("Last seq: %u, snd_nxt: %u\n", qp->hp.m_lastUpdateSeq, next_seq);
-	ack_cnt++;
-	IntHeader &ih = ch.ack.ih;
-	uint64_t ack_ts = ch.ack.ih.ts;
-	if(ack_cnt == 1){
-		last_ts = ack_ts;
+	uint64_t ack_ts = ch.ack.timestamp;
+	printf("pktsize: %lu",qp->lastPktSize);
+	// printf("Last seq: %u, snd_nxt: %u\n", qp->hp.m_lastUpdateSeq, next_seq);
+	qp->DCI.m_ackCnt++;
+	if(qp->tmly.m_lastUpdateSeq == 0){ // not first RTT
+		if (qp->DCI.m_ackCnt ==2) {
+			qp->DCI.m_gap = ack_ts - qp->DCI.m_last_ts;
+		} else if (qp->DCI.m_ackCnt <= 3){
+			uint64_t new_gap = ack_ts - qp->DCI.m_last_ts;
+			qp->DCI.m_gap = (1 - m_tmly_alpha) * qp->DCI.m_gap + m_tmly_alpha * new_gap;
+			// printf("ackcnt: %u, gap: %lu, Estimate BW: %lf, rate_now: %.3lf, cwnd: %lf,\n",qp->DCI.m_ackCnt, qp->DCI.m_gap, elstimate_bw, qp->DCI.m_curRate.GetBitRate() * 1e-9, cwnd);
+		}else if(qp->DCI.m_ackCnt > 3){
+			uint64_t new_gap = ack_ts - qp->DCI.m_last_ts;
+			qp->DCI.m_gap = (1 - m_tmly_alpha) * qp->DCI.m_gap + m_tmly_alpha * new_gap;
+			double elstimate_bw = double(next_seq - qp->tmly.m_lastUpdateSeq)/ double(qp->DCI.m_gap) * 10;
+			double cwnd = std::min(elstimate_bw * rtt / double(qp->lastPktSize), qp->m_rate.GetBitRate() * 1e-9 * rtt / double(qp->lastPktSize));
+			double cwnd_now = qp->m_rate.GetBitRate() * 1e-9 * rtt / qp->lastPktSize;
+			if (cwnd > cwnd_now) {
+				if(qp->DCI.lastDir == true){
+					qp->DCI.same_dir_cnt++;
+					if(qp->DCI.same_dir_cnt >= 3){
+						qp->DCI.v *= 2;
+						if(qp->DCI.v > 10000){
+							qp->DCI.v = 10000;
+						}
+					}
+				}else{
+					qp->DCI.v = 1;
+					qp->DCI.same_dir_cnt = 0;
+					qp->DCI.lastDir = true;
+				}
+				if(qp->m_rate < qp->m_max_rate)
+				{
+					cwnd_now = cwnd/cwnd_now * qp->DCI.v + cwnd_now;
+				}
+			}else if(cwnd < cwnd_now){
+				if(qp->DCI.lastDir == false){
+					qp->DCI.same_dir_cnt++;
+					if(qp->DCI.same_dir_cnt >= 3){
+						qp->DCI.v *= 2;
+						if(qp->DCI.v > 10000){
+							qp->DCI.v = 10000;
+						}
+					}
+				}else{
+					qp->DCI.v = 1;
+					qp->DCI.same_dir_cnt = 0;
+					qp->DCI.lastDir = false;
+				}
+				if(qp->m_rate > m_minRate) {
+					cwnd_now = cwnd_now - (cwnd_now/cwnd * qp->DCI.v);
+				}
+			}
+			qp->m_rate = DataRate(cwnd_now * qp->lastPktSize * 1e9 / rtt);
+			if (qp->m_rate > qp->m_max_rate)
+				qp->m_rate = qp->m_max_rate;
+			qp->m_rate = std::max(qp->m_rate, m_minRate);
+			printf("target_cwnd: %.3lf, cwnd_now: %.3lf ,rate_now: %.3lf rate_next: %.3lf, v: %u\n", cwnd, cwnd_now, qp->DCI.m_curRate.GetBitRate() * 1e-9, qp->m_rate.GetBitRate() * 1e-9,qp->DCI.v);
+			qp->DCI.m_curRate = qp->m_rate;
+		}
 	}
-	else if(ack_cnt == 2){
-		gap = ack_ts - last_ts;
-		last_ts = ack_ts;
+	if(!fast_react && next_seq > qp->DCI.m_lastUpdateSeq){
+		qp->DCI.m_last_ts = ack_ts;
+		qp->DCI.m_lastUpdateSeq = next_seq;
+		qp->DCI.m_curRate = qp->m_rate;
 	}
-	else if (ack_cnt <= 10){
-		uint64_t new_gap = ack_ts - last_ts;
-		last_ts = ack_ts;
-		gap = (1 - m_g) * gap + m_g * new_gap;
-	}else{
-		uint64_t new_gap = ack_ts - last_ts;
-		last_ts = ack_ts;
-		gap = (1 - m_g) * gap + m_g * new_gap;
-		double elstimate_bw = double(next_seq - qp->hp.m_lastUpdateSeq) * 1e10/ double(gap);
-		
-
-		DataRate new_rate;
-		if (elstimate_bw > )
-			new_rate = qp->m_max_rate;
-	}
-	
 }
 
 void RdmaHw::FastReactDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch){
@@ -999,10 +1029,11 @@ void RdmaHw::FastReactDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch
  * TIMELY
  *********************/
 void RdmaHw::HandleAckTimely(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch){
+	// printf("pkt size = %u\n ", p->GetSize());
 	uint32_t ack_seq = ch.ack.seq;
 	// update rate
 	if (ack_seq > qp->tmly.m_lastUpdateSeq){ // if full RTT feedback is ready, do full update
-		UpdateRateTimely_M(qp, p, ch, false);
+		UpdateRateTimely(qp, p, ch, false);
 	}else{ // do fast react
 		FastReactTimely(qp, p, ch);
 	}
@@ -1011,6 +1042,8 @@ void RdmaHw::UpdateRateTimely(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader
 	uint32_t next_seq = qp->snd_nxt;
 	uint64_t rtt = Simulator::Now().GetTimeStep() - ch.ack.ih.ts;
 	bool print = !us;
+	uint64_t ack_ts = ch.ack.timestamp;
+	// DataRate TargetRate;
 	// m_tmly_cnt++;
 	// if (print && m_node->GetId() == 2)
 		// printf("seq:%u next_seq:%u node:%u, m_tmly_cnt=%u, minRTT=%lu rtt=%lu\n", qp->tmly.m_lastUpdateSeq, next_seq, m_node->GetId(), m_tmly_cnt, m_tmly_minRtt, rtt);
@@ -1021,13 +1054,44 @@ void RdmaHw::UpdateRateTimely(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader
 	// 	m_tmly_cnt = 0;
 	// 	// m_tmly_minRtt = m_tmly_minRtt_tmp;
 	// }
+	// qp->DCI.m_ackCnt++;
 	if (qp->tmly.m_lastUpdateSeq != 0){ // not first RTT
+	// 	if (qp->DCI.m_ackCnt ==2) {
+	// 		qp->DCI.m_gap = ack_ts - qp->DCI.m_last_ts;
+	// 	} else if (qp->DCI.m_ackCnt <= 10){
+	// 		uint64_t new_gap = ack_ts - qp->DCI.m_last_ts;
+	// 		qp->DCI.m_gap = (1 - m_tmly_alpha) * qp->DCI.m_gap + m_tmly_alpha * new_gap;
+	// 		double elstimate_bw = double(next_seq - qp->tmly.m_lastUpdateSeq) / double(qp->DCI.m_gap);
+	// 		double cwnd = elstimate_bw * rtt / double(qp->lastPktSize);
+	// 		printf("ackcnt: %u, gap: %lu, Estimate BW: %lf, rate_now: %.3lf, cwnd: %lf,\n",qp->DCI.m_ackCnt, qp->DCI.m_gap, elstimate_bw, qp->tmly.m_curRate.GetBitRate() * 1e-9, cwnd);
+	// 	}else if(qp->DCI.m_ackCnt > 10){
+	// 		uint64_t new_gap = ack_ts - qp->DCI.m_last_ts;
+	// 		qp->DCI.m_gap = (1 - m_tmly_alpha) * qp->DCI.m_gap + m_tmly_alpha * new_gap;
+	// 		double elstimate_bw = double(next_seq - qp->tmly.m_lastUpdateSeq)/ double(qp->DCI.m_gap) * 10;
+	// 		double cwnd = elstimate_bw * rtt / double(qp->lastPktSize);
+	// 		printf("ackcnt: %u, gap: %lu, Estimate BW: %lf, rate_now: %.3lf, cwnd: %lf,\n",qp->DCI.m_ackCnt, qp->DCI.m_gap, elstimate_bw, qp->tmly.m_curRate.GetBitRate() * 1e-9, cwnd);
+	// 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		int64_t new_rtt_diff = (int64_t)rtt - (int64_t)qp->tmly.lastRtt;
 		double rtt_diff = (1 - m_tmly_alpha) * qp->tmly.rttDiff + m_tmly_alpha * new_rtt_diff;
 		double gradient = rtt_diff / m_tmly_minRtt;
 		bool inc = false;
 		double c = 0;
-		if (print)
+		// if (print)
 			printf("%lu node:%u rtt:%lu rttDiff:%.0lf gradient:%.3lf rate:%.3lf", Simulator::Now().GetTimeStep(), m_node->GetId(), rtt, rtt_diff, gradient, qp->tmly.m_curRate.GetBitRate() * 1e-9);
 
 		if (rtt < m_tmly_TLow){
@@ -1064,15 +1128,19 @@ void RdmaHw::UpdateRateTimely(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader
 				qp->tmly.rttDiff = rtt_diff;
 			}
 		}
-		if (print)
-			printf(" %c %.3lf\n", inc? '^':'v', qp->m_rate.GetBitRate() * 1e-9);
+		// if (print)
+		double cwnd_now = qp->m_rate.GetBitRate() * 1e-9 * rtt / qp->lastPktSize;
+			printf(" %c %.3lf, cwnd: %.3lf\n", inc? '^':'v', qp->m_rate.GetBitRate() * 1e-9, cwnd_now);
 	}
 	if (!us && next_seq > qp->tmly.m_lastUpdateSeq){
 		qp->tmly.m_lastUpdateSeq = next_seq;
 		// update
 		qp->tmly.lastRtt = rtt;
+		qp->DCI.m_last_ts = ack_ts;
 	}
+	// printf("m_ackCnt: %u\n", qp->DCI.m_ackCnt);
 }
+
 void RdmaHw::FastReactTimely(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch){
 }
 

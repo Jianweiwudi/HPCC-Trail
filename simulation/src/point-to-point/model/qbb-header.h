@@ -39,6 +39,7 @@ public:
   void SetSport(uint32_t _sport);
   void SetDport(uint32_t _dport);
   void SetTs(uint64_t ts);
+  void SetTimeStamp(uint64_t _timeStamp);
   void SetCnp();
   void SetIntHeader(const IntHeader &_ih);
 
@@ -52,6 +53,7 @@ public:
   uint16_t GetSport() const;
   uint16_t GetDport() const;
   uint64_t GetTs() const;
+  uint64_t GetTimeStamp() const;
   uint8_t GetCnp() const;
 
   static TypeId GetTypeId (void);
@@ -67,6 +69,7 @@ private:
   uint16_t flags;
   uint16_t m_pg;
   uint32_t m_seq; // the qbb sequence number.
+  uint64_t timeStamp;
   IntHeader ih;
   
 };

@@ -59,6 +59,16 @@ public:
 			uint32_t incStage;
 		}hopState[IntHeader::maxHop];
 	} hp;
+	struct {
+		uint32_t m_lastUpdateSeq;
+		uint32_t m_ackCnt;
+		uint64_t m_gap;
+		uint64_t m_last_ts;
+		DataRate m_curRate;
+		uint32_t v;
+		bool lastDir;
+		uint16_t same_dir_cnt;
+	}DCI;
 	struct{
 		uint32_t m_lastUpdateSeq;
 		DataRate m_curRate;
@@ -66,7 +76,6 @@ public:
 		uint64_t lastRtt;
 		uint64_t avgRtt;
 		double rttDiff;
-
 	} tmly;
 	struct{
 		uint32_t m_lastUpdateSeq;

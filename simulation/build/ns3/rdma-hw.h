@@ -130,9 +130,6 @@ public:
 	/**********************
 	 * DCI-RDMA
 	 *********************/
-	uint8_t ack_cnt; // slowstart ack count
-	uint64_t gap;
-	uint64_t last_ts;
 	void HandleAckDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch);
 	void UpdateRateDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch, bool us);
 	void FastReactDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &ch);

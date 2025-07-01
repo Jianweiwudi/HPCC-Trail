@@ -675,7 +675,7 @@ int main(int argc, char *argv[])
 	if (cc_mode == 7) // timely, use ts
 		IntHeader::mode = IntHeader::TS;
 	else if (cc_mode == 3) // hpcc, use int
-		IntHeader::mode = IntHeader::NORMAL;
+		IntHeader::mode = IntHeader::NORMAL; // 测试修改
 	else if (cc_mode == 10) // hpcc-pint
 		IntHeader::mode = IntHeader::PINT;
 	else // others, no extra header

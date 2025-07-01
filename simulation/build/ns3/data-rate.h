@@ -139,6 +139,9 @@ double operator/(const DataRate& lhs, const DataRate& rhs);
 
 DataRate operator+(const DataRate& lhs, const DataRate& rhs);
 
+DataRate operator-(const double& c, const DataRate& d);
+DataRate operator-(const double& c, const DataRate& d);
+DataRate operator-(const DataRate& lhs, const DataRate& rhs);
 } // namespace ns3
 
 #endif /* DATA_RATE_H */
