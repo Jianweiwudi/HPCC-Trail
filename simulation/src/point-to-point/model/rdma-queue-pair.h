@@ -65,9 +65,10 @@ public:
 		uint64_t m_gap;
 		uint64_t m_last_ts;
 		DataRate m_curRate;
-		uint32_t v;
+		uint8_t v;
 		bool lastDir;
 		uint16_t same_dir_cnt;
+		uint32_t m_lastacked;
 	}DCI;
 	struct{
 		uint32_t m_lastUpdateSeq;

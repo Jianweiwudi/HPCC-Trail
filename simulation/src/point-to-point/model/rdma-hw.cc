@@ -21,7 +21,7 @@ TypeId RdmaHw::GetTypeId (void)
 		.SetParent<Object> ()
 		.AddAttribute("MinRate",
 				"Minimum rate of a throttled flow",
-				DataRateValue(DataRate("100Mb/s")),
+				DataRateValue(DataRate('100Mb/s')),
 				MakeDataRateAccessor(&RdmaHw::m_minRate),
 				MakeDataRateChecker())
 		.AddAttribute("Mtu",
@@ -437,8 +437,8 @@ int RdmaHw::ReceiveAck(Ptr<Packet> p, CustomHeader &ch){
 	}
 
 	if (m_cc_mode == 3){
-		// HandleAckHp(qp, p, ch); //暂时修改
-		HandleAckDCI(qp, p, ch);
+		HandleAckHp(qp, p, ch);
+		// HandleAckDCI(qp, p, ch);
 	}else if (m_cc_mode == 7){
 		HandleAckTimely(qp, p, ch);
 		// HandleAckDCI(qp, p, ch);
@@ -955,29 +955,33 @@ void RdmaHw::UpdateRateDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &c
 	uint32_t next_seq = qp->snd_nxt;
 	uint64_t rtt = Simulator::Now().GetTimeStep() - ch.ack.ih.ts;
 	uint64_t ack_ts = ch.ack.timestamp;
-	printf("pktsize: %lu",qp->lastPktSize);
-	// printf("Last seq: %u, snd_nxt: %u\n", qp->hp.m_lastUpdateSeq, next_seq);
 	qp->DCI.m_ackCnt++;
+	DataRate new_rate = qp->m_max_rate;
 	if(qp->tmly.m_lastUpdateSeq == 0){ // not first RTT
 		if (qp->DCI.m_ackCnt ==2) {
+			
 			qp->DCI.m_gap = ack_ts - qp->DCI.m_last_ts;
-		} else if (qp->DCI.m_ackCnt <= 3){
+			} else if (qp->DCI.m_ackCnt < 3){
 			uint64_t new_gap = ack_ts - qp->DCI.m_last_ts;
-			qp->DCI.m_gap = (1 - m_tmly_alpha) * qp->DCI.m_gap + m_tmly_alpha * new_gap;
-			// printf("ackcnt: %u, gap: %lu, Estimate BW: %lf, rate_now: %.3lf, cwnd: %lf,\n",qp->DCI.m_ackCnt, qp->DCI.m_gap, elstimate_bw, qp->DCI.m_curRate.GetBitRate() * 1e-9, cwnd);
-		}else if(qp->DCI.m_ackCnt > 3){
+			qp->DCI.m_gap = (1 - m_g) * qp->DCI.m_gap + m_g * new_gap;
+			}else if(qp->DCI.m_ackCnt >=3){
 			uint64_t new_gap = ack_ts - qp->DCI.m_last_ts;
-			qp->DCI.m_gap = (1 - m_tmly_alpha) * qp->DCI.m_gap + m_tmly_alpha * new_gap;
-			double elstimate_bw = double(next_seq - qp->tmly.m_lastUpdateSeq)/ double(qp->DCI.m_gap) * 10;
-			double cwnd = std::min(elstimate_bw * rtt / double(qp->lastPktSize), qp->m_rate.GetBitRate() * 1e-9 * rtt / double(qp->lastPktSize));
-			double cwnd_now = qp->m_rate.GetBitRate() * 1e-9 * rtt / qp->lastPktSize;
-			if (cwnd > cwnd_now) {
+			qp->DCI.m_gap = (1 - m_g) * qp->DCI.m_gap + m_g * new_gap;
+			double elstimate_bw = double(qp->lastPktSize) * 8 * 1e9 / double(qp->DCI.m_gap);
+			// printf("time stampe: %lu, elstimate_bw = %.3lf, gap = %lu\n", ack_ts, elstimate_bw, new_gap);
+			// double cwnd = elstimate_bw * rtt / double(qp->lastPktSize);
+			// double cwnd_now = qp->m_rate.GetBitRate() * 1e-9 * rtt / qp->lastPktSize;
+			DataRate TargetRate = DataRate(elstimate_bw);
+			TargetRate = std::min(TargetRate, qp->m_max_rate);
+			TargetRate = std::max(TargetRate, m_minRate);
+			// printf("TargetRate = %.3lf\n", TargetRate.GetBitRate()*1e-9);
+			if (qp->m_rate < TargetRate) {
 				if(qp->DCI.lastDir == true){
 					qp->DCI.same_dir_cnt++;
 					if(qp->DCI.same_dir_cnt >= 3){
 						qp->DCI.v *= 2;
-						if(qp->DCI.v > 10000){
-							qp->DCI.v = 10000;
+						if(qp->DCI.v > 128){
+							qp->DCI.v = 128;
 						}
 					}
 				}else{
@@ -987,15 +991,16 @@ void RdmaHw::UpdateRateDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &c
 				}
 				if(qp->m_rate < qp->m_max_rate)
 				{
-					cwnd_now = cwnd/cwnd_now * qp->DCI.v + cwnd_now;
+					qp->m_rate = qp->DCI.v * qp->m_rate/TargetRate * m_rai+qp->m_rate;
 				}
-			}else if(cwnd < cwnd_now){
+				qp->m_rate = std::min(qp->m_rate, qp->m_max_rate);
+			}else if(qp->m_rate > TargetRate){
 				if(qp->DCI.lastDir == false){
 					qp->DCI.same_dir_cnt++;
 					if(qp->DCI.same_dir_cnt >= 3){
 						qp->DCI.v *= 2;
-						if(qp->DCI.v > 10000){
-							qp->DCI.v = 10000;
+						if(qp->DCI.v > 64){
+							qp->DCI.v = 64;
 						}
 					}
 				}else{
@@ -1004,16 +1009,15 @@ void RdmaHw::UpdateRateDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &c
 					qp->DCI.lastDir = false;
 				}
 				if(qp->m_rate > m_minRate) {
-					cwnd_now = cwnd_now - (cwnd_now/cwnd * qp->DCI.v);
+					qp->m_rate = qp->m_rate - (qp->DCI.v * qp->m_rate/TargetRate * m_rai);
 				}
+				qp->m_rate = std::max(qp->m_rate, m_minRate);
 			}
-			qp->m_rate = DataRate(cwnd_now * qp->lastPktSize * 1e9 / rtt);
-			if (qp->m_rate > qp->m_max_rate)
-				qp->m_rate = qp->m_max_rate;
-			qp->m_rate = std::max(qp->m_rate, m_minRate);
-			printf("target_cwnd: %.3lf, cwnd_now: %.3lf ,rate_now: %.3lf rate_next: %.3lf, v: %u\n", cwnd, cwnd_now, qp->DCI.m_curRate.GetBitRate() * 1e-9, qp->m_rate.GetBitRate() * 1e-9,qp->DCI.v);
-			qp->DCI.m_curRate = qp->m_rate;
+			printf("m_size: %lu, current Rate = %lu bps %c After: %lu bps\n",qp->m_size, qp->DCI.m_curRate.GetBitRate(), qp->DCI.m_curRate < TargetRate ? '+' : '-', qp->m_rate.GetBitRate());
 		}
+		qp->DCI.m_last_ts = ack_ts;
+		qp->DCI.m_lastUpdateSeq = next_seq;
+		qp->DCI.m_curRate = qp->m_rate;
 	}
 	if(!fast_react && next_seq > qp->DCI.m_lastUpdateSeq){
 		qp->DCI.m_last_ts = ack_ts;
@@ -1092,8 +1096,8 @@ void RdmaHw::UpdateRateTimely(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader
 		bool inc = false;
 		double c = 0;
 		// if (print)
-			printf("%lu node:%u rtt:%lu rttDiff:%.0lf gradient:%.3lf rate:%.3lf", Simulator::Now().GetTimeStep(), m_node->GetId(), rtt, rtt_diff, gradient, qp->tmly.m_curRate.GetBitRate() * 1e-9);
-
+			printf("%lu m_size:%lu rtt:%lu rttDiff:%.0lf gradient:%.3lf rate:%.3lf", Simulator::Now().GetTimeStep(), qp->m_size, rtt, rtt_diff, gradient, qp->tmly.m_curRate.GetBitRate() * 1e-9);
+			// printf("pktsize: %lu, lastPktsize: %u, els: %u, m_size: %u\n", qp->snd_nxt-qp->snd_una, qp->lastPktSize, next_seq-qp->tmly.m_lastUpdateSeq, qp->m_size);
 		if (rtt < m_tmly_TLow){
 			inc = true;
 		}else if (rtt > m_tmly_THigh){

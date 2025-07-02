@@ -313,12 +313,12 @@ DataRate operator-(const double& c, const DataRate& d)
 
 DataRate operator-(const DataRate& d, const double& c)
 {
-	return d.GetBitRate()-c > 0 ? DataRate(d.GetBitRate()-c) : DataRate(0);
+	return d.GetBitRate() > c ? DataRate(d.GetBitRate()-c) : DataRate(0);
 };
 
 DataRate operator-(const DataRate& lhs, const DataRate& rhs)
 {
-	return lhs.GetBitRate()-rhs.GetBitRate() > 0 ? DataRate(lhs.GetBitRate()-rhs.GetBitRate()) : DataRate(0);
+	return lhs.GetBitRate() > rhs.GetBitRate()? DataRate(lhs.GetBitRate()-rhs.GetBitRate()) : DataRate(0);
 };
 
 } // namespace ns3

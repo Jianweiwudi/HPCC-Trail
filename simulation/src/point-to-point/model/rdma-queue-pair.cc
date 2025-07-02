@@ -59,6 +59,7 @@ RdmaQueuePair::RdmaQueuePair(uint16_t pg, Ipv4Address _sip, Ipv4Address _dip, ui
 	DCI.v = 1;
 	DCI.same_dir_cnt = 0;
 	DCI.lastDir = true;
+	DCI.m_lastacked = 0;
 
 
 
