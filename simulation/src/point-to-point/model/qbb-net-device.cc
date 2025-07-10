@@ -175,7 +175,7 @@ namespace ns3 {
 			.AddConstructor<QbbNetDevice>()
 			.AddAttribute("QbbEnabled",
 				"Enable the generation of PAUSE packet.",
-				BooleanValue(true),
+				BooleanValue(false), //修改以关闭PFC，原本为true
 				MakeBooleanAccessor(&QbbNetDevice::m_qbbEnabled),
 				MakeBooleanChecker())
 			.AddAttribute("QcnEnabled",
@@ -371,16 +371,16 @@ namespace ns3 {
 		packet->PeekHeader(ch);
 		if (ch.l3Prot == 0xFE){ // PFC
 			// 无效了PFC方便实验
-			return;
-			// if (!m_qbbEnabled) return;
-			// unsigned qIndex = ch.pfc.qIndex;
-			// if (ch.pfc.time > 0){
-			// 	m_tracePfc(1);
-			// 	m_paused[qIndex] = true;
-			// }else{
-			// 	m_tracePfc(0);
-			// 	Resume(qIndex);
-			// }
+			if (!m_qbbEnabled) return;
+			unsigned qIndex = ch.pfc.qIndex;
+			if (ch.pfc.time > 0){
+				m_tracePfc(1);
+				m_paused[qIndex] = true;
+			}else{
+				m_tracePfc(0);
+				Resume(qIndex);
+			}
+			// return;
 		}else { // non-PFC packets (data, ACK, NACK, CNP...)
 			if (m_node->GetNodeType() > 0){ // switch
 				packet->AddPacketTag(FlowIdTag(m_ifIndex));

@@ -1,0 +1,323 @@
+// Fat-Tree with DCI
+digraph {
+	rankdir=TB
+	node [shape=circle style=filled]
+	subgraph cluster_0 {
+		label=DC1
+		{
+			rank=same
+			S0 [label=S0 fillcolor=lightblue]
+			S1 [label=S1 fillcolor=lightblue]
+			S2 [label=S2 fillcolor=lightblue]
+			S3 [label=S3 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S4 [label=S4 fillcolor=lightblue]
+			S5 [label=S5 fillcolor=lightblue]
+			S6 [label=S6 fillcolor=lightblue]
+			S7 [label=S7 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S8 [label=S8 fillcolor=lightblue]
+			S9 [label=S9 fillcolor=lightblue]
+			S10 [label=S10 fillcolor=lightblue]
+			S11 [label=S11 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S12 [label=S12 fillcolor=lightblue]
+			S13 [label=S13 fillcolor=lightblue]
+			S14 [label=S14 fillcolor=lightblue]
+			S15 [label=S15 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S16 [label=S16 fillcolor=lightblue]
+			S17 [label=S17 fillcolor=lightblue]
+			S18 [label=S18 fillcolor=lightblue]
+			S19 [label=S19 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S20 [label=S20 fillcolor=lightblue]
+			S21 [label=S21 fillcolor=lightblue]
+			S22 [label=S22 fillcolor=lightblue]
+			S23 [label=S23 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S24 [label=S24 fillcolor=lightblue]
+			S25 [label=S25 fillcolor=lightblue]
+			S26 [label=S26 fillcolor=lightblue]
+			S27 [label=S27 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S28 [label=S28 fillcolor=lightblue]
+			S29 [label=S29 fillcolor=lightblue]
+			S30 [label=S30 fillcolor=lightblue]
+			S31 [label=S31 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			ToR64 [label=ToR64 fillcolor=lightgreen]
+			ToR65 [label=ToR65 fillcolor=lightgreen]
+			ToR66 [label=ToR66 fillcolor=lightgreen]
+			ToR67 [label=ToR67 fillcolor=lightgreen]
+			ToR68 [label=ToR68 fillcolor=lightgreen]
+			ToR69 [label=ToR69 fillcolor=lightgreen]
+			ToR70 [label=ToR70 fillcolor=lightgreen]
+			ToR71 [label=ToR71 fillcolor=lightgreen]
+		}
+		{
+			rank=same
+			Agg72 [label=Agg72 fillcolor=yellow]
+			Agg73 [label=Agg73 fillcolor=yellow]
+			Agg74 [label=Agg74 fillcolor=yellow]
+			Agg75 [label=Agg75 fillcolor=yellow]
+			Agg76 [label=Agg76 fillcolor=yellow]
+			Agg77 [label=Agg77 fillcolor=yellow]
+			Agg78 [label=Agg78 fillcolor=yellow]
+			Agg79 [label=Agg79 fillcolor=yellow]
+		}
+		{
+			rank=same
+			Core80 [label=Core80 fillcolor=orange]
+			Core81 [label=Core81 fillcolor=orange]
+			Core82 [label=Core82 fillcolor=orange]
+			Core83 [label=Core83 fillcolor=orange]
+		}
+	}
+	subgraph cluster_1 {
+		label=DC2
+		{
+			rank=same
+			S32 [label=S32 fillcolor=lightblue]
+			S33 [label=S33 fillcolor=lightblue]
+			S34 [label=S34 fillcolor=lightblue]
+			S35 [label=S35 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S36 [label=S36 fillcolor=lightblue]
+			S37 [label=S37 fillcolor=lightblue]
+			S38 [label=S38 fillcolor=lightblue]
+			S39 [label=S39 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S40 [label=S40 fillcolor=lightblue]
+			S41 [label=S41 fillcolor=lightblue]
+			S42 [label=S42 fillcolor=lightblue]
+			S43 [label=S43 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S44 [label=S44 fillcolor=lightblue]
+			S45 [label=S45 fillcolor=lightblue]
+			S46 [label=S46 fillcolor=lightblue]
+			S47 [label=S47 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S48 [label=S48 fillcolor=lightblue]
+			S49 [label=S49 fillcolor=lightblue]
+			S50 [label=S50 fillcolor=lightblue]
+			S51 [label=S51 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S52 [label=S52 fillcolor=lightblue]
+			S53 [label=S53 fillcolor=lightblue]
+			S54 [label=S54 fillcolor=lightblue]
+			S55 [label=S55 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S56 [label=S56 fillcolor=lightblue]
+			S57 [label=S57 fillcolor=lightblue]
+			S58 [label=S58 fillcolor=lightblue]
+			S59 [label=S59 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			S60 [label=S60 fillcolor=lightblue]
+			S61 [label=S61 fillcolor=lightblue]
+			S62 [label=S62 fillcolor=lightblue]
+			S63 [label=S63 fillcolor=lightblue]
+		}
+		{
+			rank=same
+			ToR84 [label=ToR84 fillcolor=lightgreen]
+			ToR85 [label=ToR85 fillcolor=lightgreen]
+			ToR86 [label=ToR86 fillcolor=lightgreen]
+			ToR87 [label=ToR87 fillcolor=lightgreen]
+			ToR88 [label=ToR88 fillcolor=lightgreen]
+			ToR89 [label=ToR89 fillcolor=lightgreen]
+			ToR90 [label=ToR90 fillcolor=lightgreen]
+			ToR91 [label=ToR91 fillcolor=lightgreen]
+		}
+		{
+			rank=same
+			Agg92 [label=Agg92 fillcolor=yellow]
+			Agg93 [label=Agg93 fillcolor=yellow]
+			Agg94 [label=Agg94 fillcolor=yellow]
+			Agg95 [label=Agg95 fillcolor=yellow]
+			Agg96 [label=Agg96 fillcolor=yellow]
+			Agg97 [label=Agg97 fillcolor=yellow]
+			Agg98 [label=Agg98 fillcolor=yellow]
+			Agg99 [label=Agg99 fillcolor=yellow]
+		}
+		{
+			rank=same
+			Core100 [label=Core100 fillcolor=orange]
+			Core101 [label=Core101 fillcolor=orange]
+			Core102 [label=Core102 fillcolor=orange]
+			Core103 [label=Core103 fillcolor=orange]
+		}
+	}
+	{
+		rank=same
+		DCI104 [label=DCI104 fillcolor=red]
+		DCI105 [label=DCI105 fillcolor=red]
+	}
+	S0 -> ToR64
+	S1 -> ToR64
+	S2 -> ToR64
+	S3 -> ToR64
+	S4 -> ToR65
+	S5 -> ToR65
+	S6 -> ToR65
+	S7 -> ToR65
+	S8 -> ToR66
+	S9 -> ToR66
+	S10 -> ToR66
+	S11 -> ToR66
+	S12 -> ToR67
+	S13 -> ToR67
+	S14 -> ToR67
+	S15 -> ToR67
+	S16 -> ToR68
+	S17 -> ToR68
+	S18 -> ToR68
+	S19 -> ToR68
+	S20 -> ToR69
+	S21 -> ToR69
+	S22 -> ToR69
+	S23 -> ToR69
+	S24 -> ToR70
+	S25 -> ToR70
+	S26 -> ToR70
+	S27 -> ToR70
+	S28 -> ToR71
+	S29 -> ToR71
+	S30 -> ToR71
+	S31 -> ToR71
+	S32 -> ToR84
+	S33 -> ToR84
+	S34 -> ToR84
+	S35 -> ToR84
+	S36 -> ToR85
+	S37 -> ToR85
+	S38 -> ToR85
+	S39 -> ToR85
+	S40 -> ToR86
+	S41 -> ToR86
+	S42 -> ToR86
+	S43 -> ToR86
+	S44 -> ToR87
+	S45 -> ToR87
+	S46 -> ToR87
+	S47 -> ToR87
+	S48 -> ToR88
+	S49 -> ToR88
+	S50 -> ToR88
+	S51 -> ToR88
+	S52 -> ToR89
+	S53 -> ToR89
+	S54 -> ToR89
+	S55 -> ToR89
+	S56 -> ToR90
+	S57 -> ToR90
+	S58 -> ToR90
+	S59 -> ToR90
+	S60 -> ToR91
+	S61 -> ToR91
+	S62 -> ToR91
+	S63 -> ToR91
+	ToR64 -> Agg72
+	ToR64 -> Agg73
+	ToR65 -> Agg72
+	ToR65 -> Agg73
+	ToR66 -> Agg74
+	ToR66 -> Agg75
+	ToR67 -> Agg74
+	ToR67 -> Agg75
+	ToR68 -> Agg76
+	ToR68 -> Agg77
+	ToR69 -> Agg76
+	ToR69 -> Agg77
+	ToR70 -> Agg78
+	ToR70 -> Agg79
+	ToR71 -> Agg78
+	ToR71 -> Agg79
+	ToR84 -> Agg92
+	ToR84 -> Agg93
+	ToR85 -> Agg92
+	ToR85 -> Agg93
+	ToR86 -> Agg94
+	ToR86 -> Agg95
+	ToR87 -> Agg94
+	ToR87 -> Agg95
+	ToR88 -> Agg96
+	ToR88 -> Agg97
+	ToR89 -> Agg96
+	ToR89 -> Agg97
+	ToR90 -> Agg98
+	ToR90 -> Agg99
+	ToR91 -> Agg98
+	ToR91 -> Agg99
+	Agg72 -> Core80
+	Agg72 -> Core81
+	Agg73 -> Core80
+	Agg73 -> Core81
+	Agg74 -> Core80
+	Agg74 -> Core81
+	Agg75 -> Core80
+	Agg75 -> Core81
+	Agg76 -> Core82
+	Agg76 -> Core83
+	Agg77 -> Core82
+	Agg77 -> Core83
+	Agg78 -> Core82
+	Agg78 -> Core83
+	Agg79 -> Core82
+	Agg79 -> Core83
+	Agg92 -> Core100
+	Agg92 -> Core101
+	Agg93 -> Core100
+	Agg93 -> Core101
+	Agg94 -> Core100
+	Agg94 -> Core101
+	Agg95 -> Core100
+	Agg95 -> Core101
+	Agg96 -> Core102
+	Agg96 -> Core103
+	Agg97 -> Core102
+	Agg97 -> Core103
+	Agg98 -> Core102
+	Agg98 -> Core103
+	Agg99 -> Core102
+	Agg99 -> Core103
+	Core80 -> DCI104
+	Core81 -> DCI104
+	Core82 -> DCI105
+	Core83 -> DCI105
+	Core100 -> DCI104
+	Core101 -> DCI104
+	Core102 -> DCI105
+	Core103 -> DCI105
+	DCI104 -> DCI105 [color=red dir=both penwidth=2.0]
+}

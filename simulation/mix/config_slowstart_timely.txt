@@ -7,12 +7,12 @@ TOPOLOGY_FILE mix/slowstart_topo.txt
 FLOW_FILE mix/slowstart_flow.txt
 TRACE_FILE mix/trace.txt
 TRACE_OUTPUT_FILE mix/mix_slowstart_topo_slowstart_flow_timely.tr
-FCT_OUTPUT_FILE mix/fct_slowstart_topo_slowstart_flow_timely.txt
+FCT_OUTPUT_FILE mix/fct_test.txt
 PFC_OUTPUT_FILE mix/pfc_slowstart_topo_slowstart_flow_timely.txt
 
 SIMULATOR_STOP_TIME 4.00
 
-CC_MODE 3
+CC_MODE 7
 ALPHA_RESUME_INTERVAL 1
 RATE_DECREASE_INTERVAL 4
 CLAMP_TARGET_RATE 0

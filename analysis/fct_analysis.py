@@ -23,6 +23,7 @@ if __name__=="__main__":
 	CCs = [
 		'DCI',
 		'timely',
+		'HPCC'
 	]
 
 	step = int(args.step)
@@ -44,11 +45,11 @@ if __name__=="__main__":
 			output = subprocess.check_output(cmd, shell=True)
 
 		# up to here, `output` should be a string of multiple lines, each line is: fct, size
-		a = output.split('\n')[:-1]
+		a = output.split('\n')[:-2]
 		n = len(a)
-		for i in range(0,40,step):
-			l = i * n / 40
-			r = (i+step) * n / 40
+		for i in range(0,100,step):
+			l = i * n / 100
+			r = (i+step) * n / 100
 			d = map(lambda x: [float(x.split()[0]), int(x.split()[1])], a[l:r])
 			fct=sorted(map(lambda x: x[0], d))
 			res[i/step].append(d[-1][1]) # flow size
