@@ -21,9 +21,8 @@ if __name__=="__main__":
 	# For example, here we list two CC: 1. HPCC-PINT with utgt=95,AI=50Mbps,pint_log_base=1.05,pint_prob=1; 2. HPCC with utgt=95,ai=50Mbps.
 	# For the exact naming, please check ../simulation/mix/fct_*.txt output by the simulation.
 	CCs = [
-		'DCI_NPFC',
-		'timely_NPFC',
-		'hp95ai50_NPFC'
+		'DCI',
+		'roce',
 	]
 
 	step = int(args.step)
@@ -32,7 +31,7 @@ if __name__=="__main__":
 		for cc in CCs:
 			f.write(cc + "\t")
 			#file = "%s_%s.txt"%(args.prefix, cc)
-			file = "../simulation/mix/%s_%s.txt"%(args.prefix, cc)
+			file = "../simulation/mix/%s_%s_NPFC.txt"%(args.prefix, cc)
 			if type == 0:
 				cmd = "cat %s"%(file)+" | awk '{if ($4==100 && $6+$7<"+"%d"%time_limit+") {slow=$7/$8;print slow<1?1:slow, $5}}' | sort -n -k 2"
 				# print cmd
@@ -47,26 +46,30 @@ if __name__=="__main__":
 				output = subprocess.check_output(cmd, shell=True)
 
 			# up to here, `output` should be a string of multiple lines, each line is: fct, size
-			print()
+			# print(output)
 			a = output.split('\n')[:-2]
+
 			n = len(a)
-			# print(cc, n)
+
+			print(cc, n)
 			for i in range(0,100,step):
 				l = i * n / 100
 				r = (i+step) * n / 100
 				d = map(lambda x: [float(x.split()[0]), int(x.split()[1])], a[l:r])
 				fct=sorted(map(lambda x: x[0], d))
+				print(fct)
 				res[i/step].append(d[-1][1]) # flow size
 				res[i/step].append(sum(fct) / len(fct)) # avg fct
 				res[i/step].append(get_pctl(fct, 0.5)) # mid fct
 				res[i/step].append(get_pctl(fct, 0.95)) # 95-pct fct
 				res[i/step].append(get_pctl(fct, 0.99)) # 99-pct fct
 		f.write("\n")
+		print("----------------------------------------------------------------------\n")
 		for item in res:
 			line = "%d\t"%(item[1])
 			i = 1
 			for cc in CCs:
-				line += "\t%.3f %.3f %.3f"%(item[i+1], item[i+2], item[i+4])
+				line += "\t%.3f %.3f %.3f"%(item[i+1], item[i+3], item[i+4])
 				i += 5
 			print(line)
 			f.write(line + "\n")

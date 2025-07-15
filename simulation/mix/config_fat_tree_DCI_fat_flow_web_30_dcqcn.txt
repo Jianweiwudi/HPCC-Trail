@@ -6,9 +6,9 @@ PACKET_PAYLOAD_SIZE 1000
 TOPOLOGY_FILE mix/fat_tree_DCI.txt
 FLOW_FILE mix/fat_flow_web_30.txt
 TRACE_FILE mix/trace.txt
-TRACE_OUTPUT_FILE mix/mix_fat_tree_DCI_fat_flow_web_30_dcqcn.tr
-FCT_OUTPUT_FILE mix/fct_fat_tree_DCI_fat_flow_web_30_dcqcn.txt
-PFC_OUTPUT_FILE mix/pfc_fat_tree_DCI_fat_flow_web_30_dcqcn.txt
+TRACE_OUTPUT_FILE mix/mix_fat_tree_DCI_fat_flow_web_30_roce.tr
+FCT_OUTPUT_FILE mix/fct_fat_tree_DCI_fat_flow_web_30_roce.txt
+PFC_OUTPUT_FILE mix/pfc_fat_tree_DCI_fat_flow_web_30_roce.txt
 
 SIMULATOR_STOP_TIME 4.00
 
@@ -53,6 +53,6 @@ KMAX_MAP 2 100000000000 1600 400000000000 6400
 KMIN_MAP 2 100000000000 400 400000000000 1600
 PMAX_MAP 2 100000000000 0.20 400000000000 0.20
 BUFFER_SIZE 32
-QLEN_MON_FILE mix/qlen_fat_tree_DCI_fat_flow_web_30_dcqcn.txt
+QLEN_MON_FILE mix/qlen_fat_tree_DCI_fat_flow_web_30_roce.txt
 QLEN_MON_START 2000000000
 QLEN_MON_END 3000000000

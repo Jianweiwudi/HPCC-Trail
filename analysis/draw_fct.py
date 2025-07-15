@@ -36,7 +36,7 @@ for line in data_lines:
 
 sizes = np.array(sizes)
 results = np.array(results)  # shape: (N, algo_num, 3)
-metrics = ['avg fct slowdown', 'mid fct slowdown', '99-pct fct slowdown']
+metrics = ['avg fct slowdown', '95-pct fct slowdown', '99-pct fct slowdown']
 
 for metric_idx, metric in enumerate(metrics):
     plt.figure()
@@ -44,11 +44,11 @@ for metric_idx, metric in enumerate(metrics):
         plt.plot(sizes, results[:, algo_idx, metric_idx], label=algo)
     plt.xlabel('Flow Size')
     plt.ylabel(metric)
-    plt.title(f'{metric} fct slowdown')
+    plt.title(f'{metric}')
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig(f'{metric.replace(" ", "_")}_NPFC.png')
+    plt.savefig(f'{metric.replace(" ", "_")}_10G_NPFC.png')
     # plt.show()
 
 print("绘图完成，图片已保存。")

@@ -262,6 +262,7 @@ void RdmaHw::AddQueuePair(uint64_t size, uint16_t pg, Ipv4Address sip, Ipv4Addre
 		}
 	}else if (m_cc_mode == 7){
 		qp->tmly.m_curRate = m_bps;
+	}else if (m_cc_mode == 9){
 		qp->DCI.m_curRate = m_bps;
 	}else if (m_cc_mode == 10){
 		qp->hpccPint.m_curRate = m_bps;
@@ -395,6 +396,8 @@ int RdmaHw::ReceiveCnp(Ptr<Packet> p, CustomHeader &ch){
 			}
 		}else if (m_cc_mode == 7){
 			qp->tmly.m_curRate = dev->GetDataRate();
+		}else if (m_cc_mode == 9){
+			qp->DCI.m_curRate = dev->GetDataRate();
 		}else if (m_cc_mode == 10){
 			qp->hpccPint.m_curRate = dev->GetDataRate();
 		}
@@ -435,18 +438,18 @@ int RdmaHw::ReceiveAck(Ptr<Packet> p, CustomHeader &ch){
 	// handle cnp
 	if (cnp){
 		if (m_cc_mode == 1){ // mlx version
-			cnp_received_mlx(qp);
+			// cnp_received_mlx(qp);  //关闭DCQCN主要逻辑使其退化为RoCE
 		} 
 	}
 
 	if (m_cc_mode == 3){
 		HandleAckHp(qp, p, ch);
-		// HandleAckDCI(qp, p, ch);
 	}else if (m_cc_mode == 7){
-		// HandleAckTimely(qp, p, ch);
-		HandleAckDCI(qp, p, ch);
+		HandleAckTimely(qp, p, ch);
 	}else if (m_cc_mode == 8){
 		HandleAckDctcp(qp, p, ch);
+	}else if (m_cc_mode == 9){
+		HandleAckDCI(qp, p, ch);
 	}else if (m_cc_mode == 10){
 		HandleAckHpPint(qp, p, ch);
 	}
@@ -607,6 +610,7 @@ void RdmaHw::PktSent(Ptr<RdmaQueuePair> qp, Ptr<Packet> pkt, Time interframeGap)
 }
 
 void RdmaHw::UpdateNextAvail(Ptr<RdmaQueuePair> qp, Time interframeGap, uint32_t pkt_size){
+	// printf("rate now: %.3lf\n", qp->m_rate.GetBitRate()*1e-9);
 	Time sendingTime;
 	if (m_rateBound)
 		sendingTime = interframeGap + Seconds(qp->m_rate.CalculateTxTime(pkt_size));
@@ -637,8 +641,8 @@ void RdmaHw::ChangeRate(Ptr<RdmaQueuePair> qp, DataRate new_rate){
  *****************************/
 void RdmaHw::UpdateAlphaMlx(Ptr<RdmaQueuePair> q){
 	#if PRINT_LOG
-	//std::cout << Simulator::Now() << " alpha update:" << m_node->GetId() << ' ' << q->mlx.m_alpha << ' ' << (int)q->mlx.m_alpha_cnp_arrived << '\n';
-	//printf("%lu alpha update: %08x %08x %u %u %.6lf->", Simulator::Now().GetTimeStep(), q->sip.Get(), q->dip.Get(), q->sport, q->dport, q->mlx.m_alpha);
+	std::cout << Simulator::Now() << " alpha update:" << m_node->GetId() << ' ' << q->mlx.m_alpha << ' ' << (int)q->mlx.m_alpha_cnp_arrived << '\n';
+	printf("%lu alpha update: %08x %08x %u %u %.6lf->", Simulator::Now().GetTimeStep(), q->sip.Get(), q->dip.Get(), q->sport, q->dport, q->mlx.m_alpha);
 	#endif
 	if (q->mlx.m_alpha_cnp_arrived){
 		q->mlx.m_alpha = (1 - m_g)*q->mlx.m_alpha + m_g; 	//binary feedback
@@ -646,7 +650,7 @@ void RdmaHw::UpdateAlphaMlx(Ptr<RdmaQueuePair> q){
 		q->mlx.m_alpha = (1 - m_g)*q->mlx.m_alpha; 	//binary feedback
 	}
 	#if PRINT_LOG
-	//printf("%.6lf\n", q->mlx.m_alpha);
+	printf("%.6lf\n", q->mlx.m_alpha);
 	#endif
 	q->mlx.m_alpha_cnp_arrived = false; // clear the CNP_arrived bit
 	ScheduleUpdateAlphaMlx(q);
@@ -998,7 +1002,7 @@ void RdmaHw::UpdateRateDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &c
 					if(qp->DCI.same_dir_cnt >= 3){
 						qp->DCI.v *= 2;
 						if(qp->DCI.v > 128){
-							qp->DCI.v = 128;
+							qp->DCI.v = 254;
 						}
 					}
 				}else{
@@ -1012,20 +1016,22 @@ void RdmaHw::UpdateRateDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &c
 				}
 				qp->m_rate = std::min(qp->m_rate, qp->m_max_rate);
 			}else if(qp->m_rate > TargetRate){
-				if(qp->DCI.lastDir == false){
-					qp->DCI.same_dir_cnt++;
-					if(qp->DCI.same_dir_cnt >= 3){
-						qp->DCI.v *= 2;
-						if(qp->DCI.v > 64){
-							qp->DCI.v = 64;
-						}
-					}
-				}else{
+				if(qp->DCI.lastDir){
 					qp->DCI.v = 1;
 					qp->DCI.same_dir_cnt = 0;
 					qp->DCI.lastDir = false;
+				// }
+				}else{
+					qp->DCI.same_dir_cnt++;
+					if(qp->DCI.same_dir_cnt >= 3){
+						qp->DCI.v *= 2;
+						if(qp->DCI.v > 128){
+							qp->DCI.v = 254;
+						}
+					}
 				}
-				if(qp->m_rate > m_minRate) {
+				if(qp->m_rate > m_minRate)
+				{
 					qp->m_rate = qp->m_rate - (qp->DCI.v * qp->m_rate/TargetRate * m_rai);
 				}
 				qp->m_rate = std::max(qp->m_rate, m_minRate);

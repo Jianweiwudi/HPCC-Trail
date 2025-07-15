@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 			std::string key;
 			conf >> key;
 
-			//std::cout << conf.cur << "\n";
+			std::cout << conf.cur << "\n";
 
 			if (key.compare("ENABLE_QCN") == 0)
 			{
@@ -80,9 +80,9 @@ int main(int argc, char *argv[])
 				conf >> v;
 				enable_qcn = v;
 				if (enable_qcn)
-					std::cout << "ENABLE_QCN\t\t\t" << "Yes" << "\n";
+					std::cout << "ENABLE_QCN1\t\t\t" << "Yes" << "\n";
 				else
-					std::cout << "ENABLE_QCN\t\t\t" << "No" << "\n";
+					std::cout << "ENABLE_QCN1\t\t\t" << "No" << "\n";
 			}
 			else if (key.compare("USE_DYNAMIC_PFC_THRESHOLD") == 0)
 			{
@@ -503,9 +503,10 @@ int main(int argc, char *argv[])
 
 	uint32_t packetSize = packet_payload_size;
 	Time interPacketInterval = Seconds(0.0000005 / 2);
-
+	std::cout << flow_num << "\n";
 	for (uint32_t i = 0; i < flow_num; i++)
 	{
+		printf("Flow %d\n", i);
 		uint32_t src, dst, pg, maxPacketCount, port;
 		double start_time, stop_time;
 		while (used_port[port = int(UniformVariable(0, 1).GetValue() * 40000)])
@@ -550,6 +551,7 @@ int main(int argc, char *argv[])
 
 	for (uint32_t i = 0; i < tcp_flow_num; i++)
 	{
+		printf("tcp flow %d\n", i);
 		uint32_t src, dst, pg, maxPacketCount, port;
 		double start_time, stop_time;
 		while (used_port[port = int(UniformVariable(0, 1).GetValue() * 40000)])

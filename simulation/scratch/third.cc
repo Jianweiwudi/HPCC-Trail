@@ -53,7 +53,8 @@ std::string pfc_output_file = "pfc.txt";
 double alpha_resume_interval = 55, rp_timer, ewma_gain = 1 / 16;
 double rate_decrease_interval = 4;
 uint32_t fast_recovery_times = 5;
-std::string rate_ai, rate_hai, min_rate = "100Mb/s";
+std::string rate_ai, rate_hai = "100Mb/s";
+std::string min_rate = "1Mb/s";
 std::string dctcp_rate_ai = "1000Mb/s";
 
 bool clamp_target_rate = false, l2_back_to_zero = false;
@@ -163,6 +164,7 @@ uint32_t ip_to_node_id(Ipv4Address ip){
 void qp_finish(FILE* fout, Ptr<RdmaQueuePair> q){
 	uint32_t sid = ip_to_node_id(q->sip), did = ip_to_node_id(q->dip);
 	uint64_t base_rtt = pairRtt[sid][did], b = pairBw[sid][did];
+	printf("base_rtt: %lu, b: %lu\n", base_rtt, b);
 	uint32_t total_bytes = q->m_size + ((q->m_size-1) / packet_payload_size + 1) * (CustomHeader::GetStaticWholeHeaderSize() - IntHeader::GetStaticSize()); // translate to the minimum bytes required (with header but no INT)
 	uint64_t standalone_fct = base_rtt + total_bytes * 8000000000lu / b;
 	// sip, dip, sport, dport, size (B), start_time, fct (ns), standalone_fct (ns)
@@ -453,6 +455,13 @@ int main(int argc, char *argv[])
 				flow_file = v;
 				std::cout << "FLOW_FILE\t\t\t" << flow_file << "\n";
 			}
+			// else if (key.compare("TCP_FLOW_FILE") == 0)
+			// {
+			// 	std::string v;
+			// 	conf >> v;
+			// 	tcp_flow_file = v;
+			// 	std::cout << "TCP_FLOW_FILE\t\t\t" << tcp_flow_file << "\n";
+			// }
 			else if (key.compare("TRACE_FILE") == 0)
 			{
 				std::string v;
@@ -673,6 +682,8 @@ int main(int argc, char *argv[])
 	IntHop::multi = int_multi;
 	// IntHeader::mode
 	if (cc_mode == 7) // timely, use ts
+		IntHeader::mode = IntHeader::TS;
+	else if (cc_mode == 9) // DCI, use ts
 		IntHeader::mode = IntHeader::TS;
 	else if (cc_mode == 3) // hpcc, use int
 		IntHeader::mode = IntHeader::NORMAL; 

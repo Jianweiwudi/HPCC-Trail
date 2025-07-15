@@ -1,4 +1,4 @@
-# project ns (3.18) configured on Wed Jul  9 10:04:44 2025 by
+# project ns (3.18) configured on Tue Jul 15 08:42:22 2025 by
 # waf 1.7.11 (abi 98, python 20712f0 on linux2)
 # using ./waf configure
 #
@@ -108,7 +108,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801284785488: cxx test.cpp -> test.cpp.1.o}
+	{task 140080596894928: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -139,7 +139,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285172816: cxx test.cpp -> test.cpp.1.o}
+	{task 140080597278352: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -170,7 +170,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285211280: cxx test.cpp -> test.cpp.1.o}
+	{task 140080597333008: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -201,7 +201,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285213072: cxx test.cpp -> test.cpp.1.o}
+	{task 140080597334800: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -232,7 +232,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285276176: cxx test.cpp -> test.cpp.1.o}
+	{task 140080597385616: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -263,7 +263,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285277776: cxx test.cpp -> test.cpp.1.o}
+	{task 140080597387216: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -294,7 +294,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285214160: cxx test.cpp -> test.cpp.1.o}
+	{task 140080597335440: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -325,7 +325,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285211856: cxx test.cpp -> test.cpp.1.o}
+	{task 140080597333264: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -356,7 +356,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285275792: cxx test.cpp -> test.cpp.1.o}
+	{task 140080597386640: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -406,7 +406,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/bindings/python: Test does not bu
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285279248: cxx test.cpp -> test.cpp.1.o}
+	{task 140080597388816: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-fno-strict-aliasing', '-fwrapv', '-fdebug-prefix-map=/build/python2.7-QOVJtE/python2.7-2.7.18=.', '-fstack-protector-strong', '-fno-strict-aliasing', '-I/usr/include/python2.7', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DNDEBUG', '-D_FORTIFY_SOURCE=2', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 :-(
@@ -474,7 +474,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/src/core: Test does not build: Tr
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285276112: cxx test.cpp -> test.cpp.1.o}
+	{task 140080596895824: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -564,7 +564,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/src/core: Test does not build: Tr
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801284215248: cxx test.cpp -> test.cpp.1.o}
+	{task 140080596898000: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
@@ -741,7 +741,7 @@ from /mnt/e/Workshop/lab/HPCC-Trail/simulation/src/core: Test does not build: Tr
     raise Errors.BuildError(self.producer.error)
 BuildError: Build failed
  -> task in 'testprog' failed (exit status 1): 
-	{task 139801285259600: cxx test.cpp -> test.cpp.1.o}
+	{task 140080597405904: cxx test.cpp -> test.cpp.1.o}
 ['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-std=gnu++11', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o', 'test.cpp.1.o']
 
 not found
