@@ -153,6 +153,15 @@ void ScheduleFlowInputs(){
 	}
 }
 
+void ScheduleFlowInputsTCP(){
+	while (flow_input.idx < flow_num && Seconds(flow_input.start_time) == Simulator::Now()){
+		uint32_t port = portNumder[flow_input.src][flow_input.dst]++; // get a new port number 
+		PacketSinkHelper sinkHelper("ns3::TcpSocketFactory", InetSocketAddress(Ipv4Address::GetAny(), port));
+		ApplicationContainer appCon = sinkHelper.Install(n.Get(flow_input.dst));
+		appCon.Start(Time(0));
+	}
+}
+
 Ipv4Address node_id_to_ip(uint32_t id){
 	return Ipv4Address(0x0b000001 + ((id / 256) * 0x00010000) + ((id % 256) * 0x00000100));
 }
@@ -170,6 +179,7 @@ void qp_finish(FILE* fout, Ptr<RdmaQueuePair> q){
 	// sip, dip, sport, dport, size (B), start_time, fct (ns), standalone_fct (ns)
 	fprintf(fout, "%08x %08x %u %u %lu %lu %lu %lu\n", q->sip.Get(), q->dip.Get(), q->sport, q->dport, q->m_size, q->startTime.GetTimeStep(), (Simulator::Now() - q->startTime).GetTimeStep(), standalone_fct);
 	fflush(fout);
+	std::cout << "fct:" << (Simulator::Now() - q->startTime).GetNanoSeconds()*1e-6 << "ms" << std::endl;
 
 	// remove rxQp from the receiver
 	Ptr<Node> dstNode = n.Get(did);

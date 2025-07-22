@@ -175,7 +175,7 @@ namespace ns3 {
 			.AddConstructor<QbbNetDevice>()
 			.AddAttribute("QbbEnabled",
 				"Enable the generation of PAUSE packet.",
-				BooleanValue(false), //修改以关闭PFC，原本为true
+				BooleanValue(true), //修改以关闭PFC，原本为true
 				MakeBooleanAccessor(&QbbNetDevice::m_qbbEnabled),
 				MakeBooleanChecker())
 			.AddAttribute("QcnEnabled",

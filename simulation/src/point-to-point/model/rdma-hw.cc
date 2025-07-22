@@ -1036,8 +1036,9 @@ void RdmaHw::UpdateRateDCI(Ptr<RdmaQueuePair> qp, Ptr<Packet> p, CustomHeader &c
 				}
 				qp->m_rate = std::max(qp->m_rate, m_minRate);
 			}
-			// printf("m_size: %lu, current Rate = %.3lfGbps %c After: %.3lfGbps, TargetRate: %.3lfGbps\n",qp->m_size, qp->DCI.m_curRate.GetBitRate()*1e-9, qp->DCI.m_curRate < TargetRate ? '+' : '-', qp->m_rate.GetBitRate()*1e-9, TargetRate.GetBitRate()*1e-9);
+			
 		}
+		printf("current Rate = %.3lfGbps\n",qp->m_rate.GetBitRate()*1e-9);
 		qp->DCI.m_last_ts = ack_ts;
 		qp->DCI.m_lastUpdateSeq = next_seq;
 		qp->DCI.m_curRate = qp->m_rate;
